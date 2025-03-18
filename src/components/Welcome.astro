@@ -20,7 +20,7 @@
 	function gen_img(text: string) {
 		console.log(`Drawing ${text}`)
 		ctx.drawImage(base_image, 0, 0, canvas.width, canvas.height);
-		ctx.font = "5rem serif";
+		ctx.font = "4vw serif";
 		
 		ctx.fillText(text, 25 * canvas.width/200, 75 * canvas.width/200, 100 * canvas.width/200);
 	}
@@ -40,5 +40,18 @@
 
 	input {
 		font-family: serif;
+		width: 40vw;
+		font-size: 2vw;
+		border-color: white;
+		border-width: 0.2vw;
+		border-style: solid;
+		outline: 0px black;
+	}
+
+	input:focus {
+		border-color: green;
+		border-width: 0.2vw;
+		border-style: solid;
+		outline: 0px black;
 	}
 </style>
