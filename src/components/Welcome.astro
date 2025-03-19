@@ -1,8 +1,10 @@
 ---
-
+import WheresOli from "./WheresOli.astro"
+import olii from "../assets/olii.webp"
 ---
 
 <div id="container">
+	<WheresOli imgsrc={olii.src} left="5ch" top="5ch"/>
 	<canvas id="oligen" width="200" height="200"> Oli Generator </canvas>
 	<input id="whathesays" type="text" placeholder="Type here" />
 	<button id="copy">Copy Image</button>
