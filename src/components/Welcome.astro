@@ -48,11 +48,25 @@
 				[blob!.type]: blob!,
 			}),
 		]);
+		copyButton.innerText = "Image Copied";
+		copyButton.classList.add("inactive");
+		setTimeout(() => {
+			copyButton.innerText = "Copy Image";
+			copyButton.classList.remove("inactive");
+		}, 2000);
 	});
 
 	let shareButton = document.getElementById("share") as HTMLButtonElement;
 	shareButton.addEventListener("click", async (e) => {
-		navigator.clipboard.writeText(URL.parse(location.href + inputField.value)!.toString())
+		navigator.clipboard.writeText(
+			URL.parse(location.href + inputField.value)!.toString(),
+		);
+		shareButton.innerText = "Link Copied";
+		shareButton.classList.add("inactive");
+		setTimeout(() => {
+			shareButton.innerText = "Share";
+			shareButton.classList.remove("inactive");
+		}, 2000);
 	});
 </script>
 <style>
@@ -81,6 +95,16 @@
 	button:hover {
 		background-color: white;
 		color: darkolivegreen;
+	}
+
+	button.inactive {
+		color: lightgrey;
+		border-color: lightgrey;
+	}
+
+	button.inactive:hover {
+		color:darkolivegreen;
+		background-color: lightgrey;
 	}
 
 	input {
