@@ -1,13 +1,10 @@
----
-import WheresOli from "./WheresOli.astro"
-import olii from "../assets/olii.webp"
----
-
 <div id="container">
-	<WheresOli imgsrc={olii.src} left="5ch" top="5ch"/>
 	<canvas id="oligen" width="200" height="200"> Oli Generator </canvas>
 	<input id="whathesays" type="text" placeholder="Type here" />
-	<button id="copy">Copy Image</button>
+	<div id="buttons">
+		<button id="copy">Copy Image</button>
+		<button id="share">Share</button>
+	</div>
 </div>
 
 <script>
@@ -34,11 +31,11 @@ import olii from "../assets/olii.webp"
 
 	async function getBlob(): Promise<Blob> {
 		return new Promise((resolve, reject) => {
-			canvas.toBlob(blob=>resolve(blob!), "image/png");
+			canvas.toBlob((blob) => resolve(blob!), "image/png");
 		});
 	}
 
-	let inputField = document.getElementById("whathesays")!;
+	let inputField = document.getElementById("whathesays") as HTMLInputElement;
 	inputField.addEventListener("input", (e) => {
 		gen_img((e.target as HTMLInputElement).value);
 	});
@@ -51,6 +48,11 @@ import olii from "../assets/olii.webp"
 				[blob!.type]: blob!,
 			}),
 		]);
+	});
+
+	let shareButton = document.getElementById("share") as HTMLButtonElement;
+	shareButton.addEventListener("click", async (e) => {
+		navigator.clipboard.writeText(URL.parse(location.href + inputField.value)!.toString())
 	});
 </script>
 <style>
@@ -97,5 +99,9 @@ import olii from "../assets/olii.webp"
 		border-width: 0.3rem;
 		border-style: solid;
 		outline: 0px black;
+	}
+
+	div#buttons > button {
+		display: inline;
 	}
 </style>

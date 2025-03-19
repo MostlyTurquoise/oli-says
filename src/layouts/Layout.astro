@@ -1,3 +1,8 @@
+---
+import WheresOli from "../components/WheresOli.astro"
+import olii from "../assets/olii.webp"
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -7,6 +12,7 @@
 		<title>Oli Says</title>
 	</head>
 	<body>
+		<WheresOli imgsrc={olii.src} left="5ch" top="5ch" />
 		<slot />
 	</body>
 </html>

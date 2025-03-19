@@ -1,0 +1,10 @@
+---
+import JustDisplay from "../components/JustDisplay.astro";
+import Layout from "../layouts/Layout.astro";
+const { words } = Astro.params;
+export const prerender = false;
+---
+
+<Layout>
+    <JustDisplay />
+</Layout>
