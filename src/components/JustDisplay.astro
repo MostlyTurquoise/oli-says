@@ -4,13 +4,13 @@ import olii from "../assets/olii.webp"
 ---
 
 <div id="container">
-	<canvas id="oligen" width="200" height="200"> Oli Generator </canvas>
+	<img id="oligen" src="">
 	<div id="whathesays"></div>
 	<button id="redir">Make your own</button>
 </div>
 
 <script>
-	let canvas = document.getElementById("oligen")! as HTMLCanvasElement;
+	let canvas = new OffscreenCanvas(1, 1);
 	canvas.width = document.getElementById("whathesays")!.clientWidth;
 	canvas.height = document.getElementById("whathesays")!.clientWidth;
 	let ctx = canvas.getContext("2d")!;
@@ -20,15 +20,20 @@ import olii from "../assets/olii.webp"
 		gen_img(decodeURIComponent(window.location.pathname.substring(1)));
 	};
 	let modr = canvas.width / 200;
+	let out = document.getElementById("oligen") as HTMLImageElement;
 
-	function gen_img(text: string) {
+	async function gen_img(text: string) {
 		ctx.fillStyle = "olivedrab";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.drawImage(base_image, 0, 0, canvas.width, canvas.height);
 		ctx.font = "3rem serif";
 		ctx.fillStyle = "black";
-
 		ctx.fillText(text, 25 * modr, 75 * modr, 100 * modr);
+		let rdr = new FileReader()
+		rdr.addEventListener("load",(e)=>{
+			out.src = rdr.result!.toString()
+		})
+		rdr.readAsDataURL(await canvas.convertToBlob())
 	}
 
 	let redir = document.getElementById("redir") as HTMLButtonElement;
