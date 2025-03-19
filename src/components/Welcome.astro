@@ -4,30 +4,51 @@
 
 <div id="container">
 	<canvas id="oligen" width="200" height="200"> Oli Generator </canvas>
-	<input type="text" id="whathesays" placeholder="Type here" />
+	<input id="whathesays" type="text" placeholder="Type here" />
+	<button id="copy">Copy Image</button>
 </div>
 
 <script>
 	let canvas = document.getElementById("oligen")! as HTMLCanvasElement;
-	canvas.width = window.innerWidth * 0.4
-	canvas.height = window.innerWidth * 0.4
+	canvas.width = document.getElementById("whathesays")!.clientWidth;
+	canvas.height = document.getElementById("whathesays")!.clientWidth;
 	let ctx = canvas.getContext("2d")!;
 	let base_image = new Image();
 	base_image.src = "/olii-bubble.webp";
 	base_image.onload = function () {
 		gen_img("Enter Text Below");
 	};
+	let modr = canvas.width / 200;
+
 	function gen_img(text: string) {
-		console.log(`Drawing ${text}`)
+		ctx.fillStyle = "olivedrab";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.drawImage(base_image, 0, 0, canvas.width, canvas.height);
-		ctx.font = "4vw serif";
-		
-		ctx.fillText(text, 25 * canvas.width/200, 75 * canvas.width/200, 100 * canvas.width/200);
+		ctx.font = "3rem serif";
+		ctx.fillStyle = "black";
+
+		ctx.fillText(text, 25 * modr, 75 * modr, 100 * modr);
+	}
+
+	async function getBlob(): Promise<Blob> {
+		return new Promise((resolve, reject) => {
+			canvas.toBlob(blob=>resolve(blob!), "image/png");
+		});
 	}
 
 	let inputField = document.getElementById("whathesays")!;
 	inputField.addEventListener("input", (e) => {
 		gen_img((e.target as HTMLInputElement).value);
+	});
+
+	let copyButton = document.getElementById("copy") as HTMLButtonElement;
+	copyButton.addEventListener("click", async (e) => {
+		let blob = await getBlob();
+		navigator.clipboard.write([
+			new ClipboardItem({
+				[blob!.type]: blob!,
+			}),
+		]);
 	});
 </script>
 <style>
@@ -38,19 +59,40 @@
 		align-items: center;
 	}
 
+	canvas {
+		margin: 0.3rem;
+	}
+
+	button {
+		background-color: olivedrab;
+		border-color: white;
+		border-width: 0.3rem;
+		border-style: solid;
+		margin: 0.3rem;
+		font-size: 1.5rem;
+		color: white;
+		height: 2.5rem;
+	}
+
+	button:hover {
+		background-color: white;
+		color: darkolivegreen;
+	}
+
 	input {
 		font-family: serif;
-		width: 40vw;
-		font-size: 2vw;
+		width: min(30rem, 90vw);
+		font-size: 2rem;
 		border-color: white;
-		border-width: 0.2vw;
+		border-width: 0.3rem;
 		border-style: solid;
 		outline: 0px black;
+		margin: 0.3rem;
 	}
 
 	input:focus {
-		border-color: green;
-		border-width: 0.2vw;
+		border-color: darkolivegreen;
+		border-width: 0.3rem;
 		border-style: solid;
 		outline: 0px black;
 	}
